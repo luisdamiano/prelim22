@@ -1,0 +1,283 @@
+\documentclass{snedecorbeamer}
+
+\usepackage{natbib}
+\begin{document}
+
+% Title page -------------------------------------------------------------------
+\title{Automatic Dynamical Relevance Determination}
+\subtitle{A methodology for Gaussian process regression\\
+  with high-dimensional functional inputs}
+\author{Luis Damiano}
+\institute{Iowa State University\\
+  Department of Statistics}
+\date{October 6, 2022}
+
+\begin{frame}
+  \titlepage{}
+\end{frame}
+
+% Welcome message --------------------------------------------------------------
+\begin{frame}
+  \frametitle{Welcome to my prelim exam!}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Welcome to my prelim exam!}
+  \framesubtitle{Rule book}
+
+  \begin{itemize}[<+(1)->]
+  \item I prepared a 40 minute presentation
+  \item You are \textbf{strongly encouraged} to stop me as I speak
+  \item I'll start with a lit review,\\
+    \textbf{don't hesitate} to ask for clarification about what my contribution is
+  \item I can't cover all the small details in just 40 min,\\
+    \textbf{feel free} to ask about the details
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Welcome to my prelim exam!}
+  \framesubtitle{Road map}
+
+  \tableofcontents
+\end{frame}
+
+% Introduction -----------------------------------------------------------------
+\section{Problem of interest}
+\standout{Problem of interest}
+
+\begin{frame}
+  \frametitle{Functional input Gaussian process regression}
+  \framesubtitle{Subtitle}
+
+  Functional input Gaussian process regression for computer experiment emulation
+\end{frame}
+
+\section{What we know so far}
+
+\begin{frame}
+  \frametitle{Literature review}
+  \framesubtitle{Computer experiment emulation}
+
+  \begin{itemize}
+  \item Scientific phenomena investigated via complex computer models
+    \begin{itemize}
+    \item Often deterministic
+    \item Often expensive
+    \item Legacy code
+    \end{itemize}
+  \end{itemize}
+
+  \blankfootnote{
+    \citep{sacks1989jones1998}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{Literature review}
+  \framesubtitle{Gaussian process for emulation}
+
+  General reference books, including the topics the cover
+\end{frame}
+
+\begin{frame}
+  \frametitle{Literature review}
+  \framesubtitle{Gaussian process with functional inputs}
+
+  Specific lit review
+\end{frame}
+
+\begin{frame}
+  \frametitle{My role on this}
+  \framesubtitle{Gaussian process with functional inputs}
+
+  What I'm doing: I'm taking some previous ideas that have been limited applied
+  and (i) I'm generalizing under the name of ``Automatic Dynamical Relevance
+  Determination'', (ii) introducing a new parametric the weight function,
+  (iii) fiddling with basis expansions to create a wide flexible of weight
+  families
+
+  Overall, I strive for data-driven and hands-off Gaussian process regressions
+  with functional inputs.
+
+  Something you don't have to put a lot of time on it
+  Something that works a reasonable default: a reasonable modus operandi
+  Something with the potential to become the ``the first thing to try'' when
+  working with functional inputs
+  Something that doesn't rely on ``data pre-processing'', which introduces some
+disconnection between the data and the modeling framework, but that happens
+within the probabilistic framework offer by a GP.
+  Something that's interpretable
+\end{frame}
+
+% Chapter 1 --------------------------------------------------------------------
+\section{Chapter 1: ADRD + PDFI + asymmetrical Laplace function}
+\standout{Chapter 1: ADRD + PDFI + asymmetrical Laplace function}
+
+\begin{frame}
+  \frametitle{Chapter 1 is BOGO}
+  \framesubtitle{}
+
+  Chapter1 can be better though in two parts:
+  Chapter0 moving from ``viGP'' to the concept of a ``fiGP''
+  Chapter1 introducing the ALF as the first species in the family
+\end{frame}
+
+\begin{frame}
+  \frametitle{Automatic Dynamic Relevance Determination}
+  \framesubtitle{}
+
+  From ARD to ADRD
+\end{frame}
+
+\begin{frame}
+  \frametitle{Permutation Dynamic Feature Importance}
+  \framesubtitle{}
+
+  From PFI to PDFI
+\end{frame}
+
+\begin{frame}
+  \frametitle{Asymmetrical Laplace function}
+  \framesubtitle{}
+
+  ALF spec, priors, figures
+\end{frame}
+
+\begin{frame}
+  \frametitle{Case study}
+  \framesubtitle{}
+
+  One slide introducing the science
+  One slide introducing the stats
+  Two slides with the results
+\end{frame}
+
+\begin{frame}
+  Dump some stuff from previous presentations
+
+\end{frame}
+
+\section{Chapter 2: Fourier basis functions}
+\standout{Chapter 2: Fourier basis functions}
+
+\begin{frame}
+  \frametitle{Fourier expansion for the weight function}
+  \framesubtitle{Fourier series review}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fourier expansion for the weight function}
+  \framesubtitle{FEW specification goes here}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fourier expansion for the weight function}
+  \framesubtitle{Alternative parametrization}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fourier expansion for the weight function}
+  \framesubtitle{Simulation study}
+
+  Sim study specification goes here
+  Two questions: (i) ALF and FEW vs the world
+  (ii) Overfitting
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fourier expansion for the weight function}
+  \framesubtitle{Limitations}
+
+\end{frame}
+
+\section{Chapter 3: better basis functions}
+\standout{Chapter 3: better basis functions}
+
+\begin{frame}
+
+  Early results suggest that Fourier basis are nice but limited
+
+  Concepts to explore:
+  \begin{itemize}
+  \item Partition of unity of a topological space $\mathcal{T}$ is a set of
+    continuous functions from $\mathcal{T}\to[0, 1]$ s.t.
+  \item Wavelets
+  \item Bernstein polynomials and Bézier curves
+  \item Nonnegative B-splines
+  \end{itemize}
+\end{frame}
+
+% Lose ends --------------------------------------------------------------------
+\standout{Short notes}
+\section{Loose ends}
+
+\begin{frame}
+  \frametitle{IBEX mission}
+  \framesubtitle{}
+
+  Summer internship at LANL
+\end{frame}
+
+\begin{frame}
+  \frametitle{Analytical solution to piece-wise linear inputs}
+  \framesubtitle{}
+
+\end{frame}
+
+% Closing slide ----------------------------------------------------------------
+\begin{frame}[c]
+  \frametitle{Acknowledgments}
+  \centering
+
+  {\small Jarad Niemi, Max D. Morris,\\
+    Margaret Johnson (JPL), Joaquim Texeira (JPL), \\
+    Microwave Limb Sounder team (JPL),\\
+    David Osthus (LANL), Brian Weaver (LANL) \\
+    ISU PIRI on C-CHANGE:~Science for a Changing Agriculture.\\
+    Foundation for Food and Agriculture Research}
+
+  \vfill
+
+  {\huge Thank you!}
+
+  \vfill
+
+  {\tiny References and extra slides on the back}
+
+  \href{ldamiano@iastate.edu}{\beamergotobutton{mail}
+    ldamiano@iastate.edu}
+
+  \href{https://luisdamiano.github.io/}{\beamergotobutton{site}
+    luisdamiano.github.io}
+
+  \vfill
+
+  {\tiny Am I candidate enough?}
+
+\end{frame}
+
+% Appendix ---------------------------------------------------------------------
+\appendix
+
+\section{References}
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+\begin{frame}[allowframebreaks]{References}
+  \tiny
+  \bibliographystyle{unsrt}
+  \bibliography{references}
+\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% eval: (TeX-run-style-hooks "beamer")
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
