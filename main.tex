@@ -60,31 +60,75 @@
   \framesubtitle{Computer experiment emulation}
 
   \begin{itemize}
-  \item Scientific phenomena investigated via complex computer models
+  \item<2-> Scientific phenomena investigated via complex computer models
     \begin{itemize}
     \item Often deterministic
     \item Often expensive
     \item Legacy code
     \end{itemize}
+  \item<3-> Emulation's various
+    goals\citep{sacks1989,jones1998,currin1991,koehler1996}
+    \begin{itemize}
+    \item Understanding
+    \item Optimization~\citep{jones1998,ohagan1992}
+    \item Calibration~\citep{higdon2008,higdon2008a,kennedy2001}
+    \item Validation~\citep{bayarri2007}
+    \item Sensitivity analysis
+    \item Uncertainty quantification
+    \item Scaling up
+    \end{itemize}
   \end{itemize}
-
-  \blankfootnote{
-    \citep{sacks1989jones1998}
-  }
 \end{frame}
 
 \begin{frame}
   \frametitle{Literature review}
   \framesubtitle{Gaussian process for emulation}
 
-  General reference books, including the topics the cover
+  Topics covered in modern, general literature \citep{santner2003,santner2018,gramacy2020}
+  \begin{itemize}
+  \item Prediction, optimization, calibration, sensitivity with GPs
+  \item Design of experiment
+  \item Non-stationarity
+  \item Mixed qualitative and quantitative inputs
+  \item Multiple outputs, functional outputs
+  \item Big data
+  \end{itemize}
+
+  \vfill{}
+  \begin{exampleblock}{}
+    General references only cover vector and categorical inputs
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}
   \frametitle{Literature review}
   \framesubtitle{Gaussian process with functional inputs}
 
-  Specific lit review
+  Computer experiment with functional inputs $X(t):
+  \mathcal{T}\to\mathbb{R}$ \\
+  input quantities varying over a continuum typically modeled as function of
+  some index
+
+  \begin{itemize}[<+(1)->]
+  \item Treat input as vectors~\citep{iooss2009}
+  \item Transform input to vectors, e.g.,
+    splines~\citep{betancourt2020,betancourt2020a}, principal component
+    analysis~\citep{nanty2016}, functional principal component
+    analysis~\citep{wang2017,wang2019}, among other basis
+    functions~\citep{tan2019,li2021}
+  \item A weight function for time-varying inputs and outputs~\citep{morris2012}
+  \item A weight function for functional inputs with an $L^2$ norm approximated
+    via splines \citep{muehlenstaedt2017}
+  \item A lengthscale function modeled via trigonometric basis functions
+    \citep{kuttubekova2019}
+  \item A lengthscale for the functional input frequency \citep{chen2021}
+  \end{itemize}
+
+  \vfill{}
+  \begin{exampleblock}{}
+    Although functional input computer experiments are not uncommon,
+    there has been little work on functional input Gaussian processes
+  \end{exampleblock}
 \end{frame}
 
 \begin{frame}
@@ -165,6 +209,7 @@ within the probabilistic framework offer by a GP.
   \frametitle{Fourier expansion for the weight function}
   \framesubtitle{Fourier series review}
 
+  kuttubekova2019
 \end{frame}
 
 \begin{frame}
