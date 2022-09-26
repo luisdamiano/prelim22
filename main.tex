@@ -1,6 +1,11 @@
 \documentclass{snedecorbeamer}
 
 \usepackage{natbib}
+
+\usetikzlibrary{positioning,decorations.pathreplacing,quotes,overlay-beamer-styles}
+
+\graphicspath{{inc/}}
+
 \begin{document}
 
 % Title page -------------------------------------------------------------------
@@ -43,16 +48,6 @@
 \end{frame}
 
 % Introduction -----------------------------------------------------------------
-\section{Problem of interest}
-\standout{Problem of interest}
-
-\begin{frame}
-  \frametitle{Functional input Gaussian process regression}
-  \framesubtitle{Subtitle}
-
-  Functional input Gaussian process regression for computer experiment emulation
-\end{frame}
-
 \section{What we know so far}
 
 \begin{frame}
@@ -60,20 +55,20 @@
   \framesubtitle{Computer experiment emulation}
 
   \begin{itemize}
-  \item<2-> Scientific phenomena investigated via complex computer models
+  \item<2-> Scientific phenomena investigated via complex computer
+    models~\citep{sacks1989,currin1991,koehler1996}
     \begin{itemize}
     \item Often deterministic
     \item Often expensive
     \item Legacy code
     \end{itemize}
-  \item<3-> Emulation's various
-    goals\citep{sacks1989,jones1998,currin1991,koehler1996}
+  \item<3-> Emulation's various goals
     \begin{itemize}
     \item Understanding
     \item Optimization~\citep{jones1998,ohagan1992}
     \item Calibration~\citep{higdon2008,higdon2008a,kennedy2001}
     \item Validation~\citep{bayarri2007}
-    \item Sensitivity analysis
+    \item Sensitivity analysis~\citep{campbell2006,iooss2009,morris2018}
     \item Uncertainty quantification
     \item Scaling up
     \end{itemize}
@@ -84,7 +79,8 @@
   \frametitle{Literature review}
   \framesubtitle{Gaussian process for emulation}
 
-  Topics covered in modern, general literature \citep{santner2003,santner2018,gramacy2020}
+  Topics covered in modern, general
+  literature~\citep{santner2003,santner2018,gramacy2020}
   \begin{itemize}
   \item Prediction, optimization, calibration, sensitivity with GPs
   \item Design of experiment
@@ -168,75 +164,375 @@ within the probabilistic framework offer by a GP.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Automatic Dynamic Relevance Determination}
+  \frametitle{Input structure information}
   \framesubtitle{}
 
-  From ARD to ADRD
+  \begin{table}[]
+    \footnotesize
+    \begin{tabular}{@{}lllll@{}}
+      \toprule
+      \small Output
+      & \begin{tabular}[c]{@{}l@{}}\small Input\\ $X(t): \mathcal{T} \to
+	  \mathbb{R}$\end{tabular}
+      & \begin{tabular}[c]{@{}l@{}}\small Index\\ $t \in \mathcal{T}$\end{tabular}
+      & \begin{tabular}[c]{@{}l@{}}\small Index subspaces\\ $t \in
+	  \mathcal{T}_u$\end{tabular}
+      & \small Mechanism \\ \midrule
+      \visible<2->{%
+      Plant growth
+      & Phosphorus
+      & Depth
+      & Soil layers
+      & Root biomass \vspace{1ex}
+      }
+      \visible<3->{%
+      \\
+      & Precipitation
+      & Time
+      & Cycles, seasons
+      &
+	\begin{tabular}[c]{@{}l@{}}
+	  Germination \\photosynthesis \\ nutrient absorption
+	\end{tabular}
+      \vspace{1ex}
+      }
+      \visible<4->{%
+      \\
+      Soil erosion
+      & Elevation
+      & Distance
+      & Up/down slope
+      & Water flow \vspace{1ex}
+      }
+	\visible<5->{%
+	\\
+      Radiance
+      & Chemical species
+      & Elevation
+      & Atmospheric layers
+      & Reflectivity \vspace{0ex}
+      }
+      \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+  \vfill
+  \begin{quote}<6->
+    Index subspaces can provide a meaningful representation of the
+    physical process
+  \end{quote}
+
+  \vfill
+  \begin{quote}<7->
+    Can we establish an explicit link $X(t) \xrightarrow{f} y$?
+  \end{quote}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Permutation Dynamic Feature Importance}
-  \framesubtitle{}
+  \frametitle{Functional Input Gaussian Process (fiGP)}
+  \framesubtitle{Model setup}
 
-  From PFI to PDFI
+  \begin{align}
+    \mathbf{y}
+    &\sim \mathcal{N}\left(0, \sigma_{f}^{2} \ \mathbf{R}_f
+      + \sigma_{\varepsilon}^{2}\mathbf{I}\right) \\
+    {\left(\mathbf{R}_f\right)}_{ij}
+    &=
+      \text{exp}\left\{
+      -0.5 \phi^{-2} \ d_f(X_i, X_j)
+      \right\} \\
+    \visible<2->{
+    d_f(X_i, X_j)
+    &= \int_{\mathcal{T}}
+      \omega(t)
+      {\left(X_i(t) - X_j(t) \right)}^2 dt
+      } \\
+    \visible<3->{
+    \omega(t)
+    &: \mathcal{T}\to\mathbb{R}^+
+      %\text{exp}\left\{-(t - \tau) \lambda \kappa^s s\right\}
+      }
+  \end{align}
+
+  \blankfootnote{
+    $\sigma_{\varepsilon}^2 > 0$,
+    $\sigma_{f}^2 > 0$,
+    $\phi > 0$,
+    $i, j = 1, \dots, N$
+  }
 \end{frame}
 
 \begin{frame}
-  \frametitle{Asymmetrical Laplace function}
-  \framesubtitle{}
+  \frametitle{Functional Input Gaussian Process (fiGP)}
+  \framesubtitle{Automatic Dynamic Relevance Determination}
 
-  ALF spec, priors, figures
+  \begin{tikzpicture}
+    [
+    txtbox1/.style={rectangle,align=center,draw=blue!50,fill=blue!20,thick},
+    every label/.style={font=\itshape\footnotesize}
+    ]
+    \tikzset{every node/.style={align=center}}
+    \node (aspect1b)   at (0, 0)                        [text width=15ex] {
+      Model tuning\\{\footnotesize \itshape (learning)}
+    };
+    \node (aspect2)    [below=of aspect1b]              [text width=15ex] {
+      Distance\\{\footnotesize $d(X_i, X_j)$}
+    };
+    \node (aspect3)    [below=of aspect2]               [text width=15ex] {
+      Weights\\{\footnotesize \itshape (relevance)}
+    };
+    %%%%%
+    \node (solution1b) [right=of aspect1b]              [text width=25ex] {
+      Automatic\\Relevance\\Determination
+    };
+    %%%%%
+    \node (solution2b) [txtbox1] [right=of solution1b]  [text
+    width=25ex]
+    [visible on=<2->]{
+      Automatic\\\textit{Dynamic Relevance}\\Determination
+    };
+    %%%%%
+    \node (eq1b) [below=of solution1b] [text width=25ex] {
+      $\sum_{k=1}^K \frac{{(x_{i, k} - x_{j, k})}^2}{\ell_k^2}$
+    };
+    \node (eq2b) [below=of solution2b] [text width=25ex]
+    [visible on=<3->]{
+      $\int_{\mathcal{T}}
+      \omega(t)
+      {\left(X_i(t) - X_j(t) \right)}^2 \mathrm{d}t
+      $
+    };
+    %%%%%
+    \node (par1b) [below=of eq1b] [text width=25ex]{
+      $\ell^{-2}_1, \cdots, \ell^{-2}_K > 0$
+    };
+    \node (par2b) [below=of eq2b] [text width=25ex]
+    [visible on=<4->]{
+      $\omega(t): \mathcal{T} \to \mathbb{R}^+$
+    };
+    \draw[shorten >=1ex,shorten <=1ex,line width=1pt]
+    [visible on=<2->] [->] (solution1b.east) -- (solution2b.west);
+    % \draw[shorten >=1ex,shorten <=1ex,line width=1pt]
+    % [visible on=<3->] [->] (eq1b.east) -- (eq2b.west);
+    % \draw[shorten >=1ex,shorten <=1ex,line width=1pt]
+    % [visible on=<4->] [->] (par1b.east) -- (par2b.west);
+  \end{tikzpicture}
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{Permutation Dynamic Feature Importance}
+%   \framesubtitle{}
+
+%   From PFI to PDFI
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Functional Input Gaussian Process (fiGP)}
+  \framesubtitle{Asymmetrical Laplace function}
+
+  \begin{figure}[h!]
+	\centering
+    \includegraphics[width=.7\textwidth]{02-alf-weight-plot}%
+  \end{figure}
+  {
+    \centering
+    $\omega(t) = \text{exp}\left\{-(t - \tau) \lambda \kappa^s s\right\}$
+    $\tau \sim \textsc{Beta}$,
+    $\lambda \sim \textsc{N}^{+}$,
+    $\log(\kappa) \sim \textsc{N}$
+  }
+
+  \blankfootnote{
+    $\omega(t): \mathcal{T} = [0, 1] \to (0, 1]$,
+    $s = \text{sign}(t - \tau)$,
+    $\tau > 0$,
+    $\lambda > 0$,
+    $\kappa > 0$
+  }
 \end{frame}
 
 \begin{frame}
   \frametitle{Case study}
-  \framesubtitle{}
+  \framesubtitle{NASA's Microwave Limb Sounder}
 
-  One slide introducing the science
-  One slide introducing the stats
-  Two slides with the results
+    \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+	\includegraphics[height=.4\textheight]{aura.jpg}
+
+	{\footnotesize \textit{Credit: NASA Aura}}
+
+	\vspace{5ex}
+
+	\definecolor{bright-spark}{RGB}{255, 195, 59}
+	\tikzstyle{nice-rectangle} = [rectangle, rounded corners,
+	minimum width=3cm, minimum height=1cm, text centered,
+	fill=bright-spark, font=\sffamily]
+	\tikzset{every label/.style={font=\itshape\footnotesize}}
+	\begin{tikzpicture}
+	  \node (input) [nice-rectangle] [text width = 15ex] [label=below:Functional
+	  input $X(t)$] {Atmospheric constituents};
+	  \node
+	  (output) [nice-rectangle, right=of input]
+	  [label=below:Scalar output $y$] {Radiance};
+	  \draw [->] (input) [above] -- node {$f$} (output);
+	\end{tikzpicture}
+      \end{center}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tikzpicture}[overlay, remember picture]
+	\node[anchor=north west] (b) at (-.2, .9) {
+	  \includegraphics[height=.9\textheight]{eda-profile.png}
+	};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
-  Dump some stuff from previous presentations
+  \frametitle{Case study}
+  \framesubtitle{Implementation}
 
+  \begin{itemize}
+  \item 8 training, 8 test complementary sets
+  \item 1,000 soundings each
+  \item One model fit separately per input-output pair
+  \item Fully Bayesian inference
+  \item Hamiltonian Monte Carlo using Stan
+  \item 1 long chain
+  \item Extensive search for an initial value
+  \item 500 post-warmup iterations
+  \item 1,500 posterior samples
+  \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Case study}
+  \framesubtitle{Implementation}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{image2934-8.png}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Case study}
+  \framesubtitle{fiGP vs viGP}
+
+  \begin{figure}
+    \centering
+    \includegraphics[height=.75\textheight]{weights-examples-pressure.pdf}
+  \end{figure}
+
+  \blankfootnote{In this slide only, we fix $\kappa = 1$ so that
+    $\omega(t)$ is symmetrical}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why a fiGP?}
+  \framesubtitle{In summary}
+
+  \begin{itemize}
+  \item[+]<1-> High dimensional inputs with no dimension reduction
+    \begin{itemize}
+    \item Reduce unknowns $3 << K$
+    \item Scales up for applications with higher input resolution
+      $\uparrow K$
+    \end{itemize}
+  \item[+]<2-> Explicit link between output correlation and
+    input functional structure
+    \begin{itemize}
+    \item<2-> Can incorporate domain-specific knowledge
+    \item<2-> Tangible for prior elicitation
+    \item<2-> Interpretation $\to$ insight?
+    \item<2-> Smooths out erratic relevance patterns
+    \end{itemize}
+  \item[+]<3-> Similar predictive power as viGP, but better than FPCA, in the
+    case study
+  \item[++]<4-> Extensible to \alert{\textbf{complex
+        index spaces}}, e.g., spatio-temporal spectral inputs
+  \end{itemize}
+\end{frame}
+
+% Chapter 2 --------------------------------------------------------------------
 \section{Chapter 2: Fourier basis functions}
 \standout{Chapter 2: Fourier basis functions}
 
 \begin{frame}
   \frametitle{Fourier expansion for the weight function}
-  \framesubtitle{Fourier series review}
+  \framesubtitle{Model specification}
 
-  kuttubekova2019
+  \begin{align}
+  \log\omega(t)
+  \label{eq:few-log}
+  &=\psi_{c,0} + \sum_{g = 1}^{G} \psi_{c,g}\cos\left(2\pi gt\right)
+    + \sum_{g = 1}^{G} \psi_{s,g}\sin\left(2\pi gt\right),
+  \end{align}
+
+  \begin{center}
+    $\psi_{c,g},\psi_{s,g}\in\Reals$, $G\in\mathbb{N}$
+  \end{center}
+
+  \vfill{}
+
+  \begin{itemize}[<+(1)->]
+  \item Identifiability: (i) $\phi = 1$, (ii) $\psi_{c,0} = 0$,
+    (iii) $\max_\mathcal{T}\omega(t) = 1$, or (iv)
+    $\int_\mathcal{T}\omega(t)\dx{t} = 1$
+  \item Model selection: fix $G$, or\dots
+  \item Regularization priors $\psi_g\sim\mathcal{N}(0,
+    g^{-2}\sigma^2_\psi)$, $\sigma_\psi\sim\mathcal{C}^+(0, 1)$
+  \end{itemize}
+
+  \blankfootnote{\citep{carvalho2010}}
 \end{frame}
 
 \begin{frame}
   \frametitle{Fourier expansion for the weight function}
-  \framesubtitle{FEW specification goes here}
+  \framesubtitle{Some examples}
 
-\end{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{syn01-weight-span}
+  \end{figure}
 
-\begin{frame}
-  \frametitle{Fourier expansion for the weight function}
-  \framesubtitle{Alternative parametrization}
-
+  \begin{center}
+    $\bm{\psi}_{c} = (-1.9, -2, -1.3, -.1, -.5)$\\
+    $\bm{\psi}_{s} = (-.2, -.2, 0, .2, .1)$\\
+    $G\in\{1, 2, 5\}$
+  \end{center}
 \end{frame}
 
 \begin{frame}
   \frametitle{Fourier expansion for the weight function}
   \framesubtitle{Simulation study}
 
-  Sim study specification goes here
-  Two questions: (i) ALF and FEW vs the world
-  (ii) Overfitting
+  \begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{syn01-weight-true}
+  \end{figure}
 
+  \begin{itemize}
+  \item Two questions: (i) ALF and FEW vs the world, (ii) do we avoid
+    overfitting as $K\to\infty$
+  \item Validation statistics: RMSE, negLPPD, negCRPS~\citep{gneiting2007},
+    nominal coverage
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Fourier expansion for the weight function}
   \framesubtitle{Limitations}
+
+  \begin{itemize}
+  \item It introduces strong regularization in the length-scale over the index
+    space
+  \item enforces periodicity and, consequently, $\wfew(0) = \wfew(1)$
+  \item exponential function has some subtle effects
+  \end{itemize}
 
 \end{frame}
 
@@ -317,6 +613,95 @@ within the probabilistic framework offer by a GP.
   \tiny
   \bibliographystyle{unsrt}
   \bibliography{references}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Case study}
+  \framesubtitle{Out-of-sample prediction}
+
+  \begin{table}
+    \adjustbox{width=0.89\textwidth}{%
+      \centering
+      \begin{tabular}{lrrrrr|r}
+        \toprule
+        \input{inc/validation-statistics-RMSE}
+      \end{tabular}
+      \begin{tabular}{lrrrrr|r}
+        \toprule
+        \input{inc/validation-statistics-PPLD}
+      \end{tabular}}
+    \caption{Mean validation statistics
+      $\bar{v}^{(p, q)}$: RMSE (left) and negPPLD (right).
+      Smaller values are better. Bold: best in class.}%
+    \label{tab:validation-statistics-mini}
+  \end{table}
+
+  Mean validation statistics: RMSE (left) and negative posterior
+  predictive log-density (right).  Smaller values are better. Bold: best
+  in column. \textsc{Edn} $\tau = 0, \kappa = 1$; \textsc{SDE} $\tau =
+  0$; \textsc{ADE} $\tau, \kappa, \lambda$ all free; \textsc{ARD} as
+  many free parameters as measurements per vertical profile.
+\end{frame}
+
+\begin{frame}
+  \frametitle{FEW function with one harmonic}
+  \framesubtitle{$\psi_{c}$ in the rows, $\psi_{s}$ in the column}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=.65\textwidth]{FEW-G1-span}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simulation study}
+  \framesubtitle{True weight functions}
+
+  \vspace{-2ex}
+  {\small
+    \begin{align*}
+      \omega^\star_1(t)
+      &=Q(t, .75, .30)
+      &\text{Unimodal} \\
+      \omega^\star_2(t)
+      &=\left\{1.13 + \sin[2\pi(1-t)] - \cos[2\pi2(1-t)]\right\} / 3.13
+      &\text{Bimodal} \\
+      \omega^\star_3(t)
+      &=\frac{2}{3} Q(t, .25, .07)+
+        \frac{1}{3} Q(t, .50, .07) +
+        \frac{3}{3} Q(t, .75, .07)
+      &\text{Trimodal} \\
+      \omega^\star_4(t)
+      &=
+        \begin{cases}
+          \exp\left(10\,\lvert t - .75 \rvert\right) \\
+          \exp\left(-2.5\,\lvert t - .75 \rvert\right) \\
+        \end{cases}
+      &\text{ALF} \\
+      \omega^\star_5(t)
+      &=
+        \begin{aligned}[t]
+          &\exp\left\{\right.
+          .2 +
+          1/3 \cos(2\pi t) - 5/3 \cos(2\pi2t) - \\
+          &2/3 \sin(2\pi t) + 4/3 \sin(2\pi2t)
+          \left.\right\} / 17.62
+        \end{aligned}
+      &\text{FEW5} \\
+      \omega^\star_6(t)
+      % &= {\left(\frac{t - .5}{.5}\right)}^{10}
+      &= {(2t - 1)}^{10}
+      &\text{U shape} \\
+      \omega^\star_7(t)
+      % &=1 - \mathbb{I}(t < .9) - \mathbb{I}(t < .6)
+      &=\mathbb{I}(.6\le t \le.9)
+      &\text{Box} \\
+      \omega^\star_8(t)
+      &=\mathbb{I}(t\in\{.25, .50, .75\})
+      &\text{Point mass}
+    \end{align*}
+    $Q(t, a, b) = \exp\left[-{(t - a)}^2/b^2\right]$, and $\mathbb{I}(\cdot)$
+    is an indicator function}
 \end{frame}
 
 \end{document}
