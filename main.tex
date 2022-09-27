@@ -35,8 +35,8 @@
   \item You are \textbf{strongly encouraged} to stop me as I speak
   \item I'll start with a lit review,\\
     \textbf{don't hesitate} to ask for clarification about what my contribution is
-  \item I can't cover all the small details in just 40 min,\\
-    \textbf{feel free} to ask about the details
+  \item The presentation relies heavily on visuals,\\
+    \textbf{feel free} to dive into the technical details
   \end{itemize}
 \end{frame}
 
@@ -49,6 +49,7 @@
 
 % Introduction -----------------------------------------------------------------
 \section{What we know so far}
+\standout{What we know so far}
 
 \begin{frame}
   \frametitle{Literature review}
@@ -121,13 +122,13 @@
   \end{itemize}
 
   \vfill{}
-  \begin{exampleblock}{}
+  \begin{exampleblock}{}<8>
     Although functional input computer experiments are not uncommon,
     there has been little work on functional input Gaussian processes
   \end{exampleblock}
 \end{frame}
 
-\begin{frame}
+\begin{frame}<beamer:0>
   \frametitle{My role on this}
   \framesubtitle{Gaussian process with functional inputs}
 
@@ -154,7 +155,7 @@ within the probabilistic framework offer by a GP.
 \section{Chapter 1: ADRD + PDFI + asymmetrical Laplace function}
 \standout{Chapter 1: ADRD + PDFI + asymmetrical Laplace function}
 
-\begin{frame}
+\begin{frame}<beamer:0>
   \frametitle{Chapter 1 is BOGO}
   \framesubtitle{}
 
@@ -319,6 +320,7 @@ within the probabilistic framework offer by a GP.
     % \draw[shorten >=1ex,shorten <=1ex,line width=1pt]
     % [visible on=<4->] [->] (par1b.east) -- (par2b.west);
   \end{tikzpicture}
+  Overfitting with as many $\ell_k$ as $K$
 \end{frame}
 
 % \begin{frame}
@@ -336,13 +338,12 @@ within the probabilistic framework offer by a GP.
 	\centering
     \includegraphics[width=.7\textwidth]{02-alf-weight-plot}%
   \end{figure}
-  {
-    \centering
-    $\omega(t) = \text{exp}\left\{-(t - \tau) \lambda \kappa^s s\right\}$
+  \begin{center}
+    $\omega(t) = \text{exp}\left\{-(t - \tau) \lambda \kappa^s s\right\}$\\
     $\tau \sim \textsc{Beta}$,
     $\lambda \sim \textsc{N}^{+}$,
     $\log(\kappa) \sim \textsc{N}$
-  }
+  \end{center}
 
   \blankfootnote{
     $\omega(t): \mathcal{T} = [0, 1] \to (0, 1]$,
@@ -398,6 +399,7 @@ within the probabilistic framework offer by a GP.
   \begin{itemize}
   \item 8 training, 8 test complementary sets
   \item 1,000 soundings each
+  \item 7 models: viGP SE, ARD, FPCA, FFPCA, and fiGP Edn, SDE, ADE
   \item One model fit separately per input-output pair
   \item Fully Bayesian inference
   \item Hamiltonian Monte Carlo using Stan
@@ -405,30 +407,43 @@ within the probabilistic framework offer by a GP.
   \item Extensive search for an initial value
   \item 500 post-warmup iterations
   \item 1,500 posterior samples
+  \item Several out-of-sample validation statistics
   \end{itemize}
 \end{frame}
 
 \begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[width=.95\textwidth]{param-band2-unk-2-fiGP-ADE-1-O3.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-fiGP-ADE-1-O3.pdf}
+    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-viGP-FFPCA-1-O3.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \centering
+    \includegraphics[height=.95\textheight]{weights-examples-pressure.pdf}
+  \end{figure}
+
+  \blankfootnote{In this slide only, we fix $\kappa = 1$ so that
+    $\omega(t)$ is symmetrical}
+\end{frame}
+
+\begin{frame}
   \frametitle{Case study}
-  \framesubtitle{Implementation}
+  \framesubtitle{Weight function posterior samples}
 
   \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{image2934-8.png}
   \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Case study}
-  \framesubtitle{fiGP vs viGP}
-
-  \begin{figure}
-    \centering
-    \includegraphics[height=.75\textheight]{weights-examples-pressure.pdf}
-  \end{figure}
-
-  \blankfootnote{In this slide only, we fix $\kappa = 1$ so that
-    $\omega(t)$ is symmetrical}
 \end{frame}
 
 \begin{frame}
