@@ -418,17 +418,18 @@ within the probabilistic framework offer by a GP.
     \item 1,500 posterior samples
     \end{itemize}
   \item Several out-of-sample validation statistics
+    \hyperlink{frm:validation}{\beamerbutton{see more}}
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \begin{figure}
     \centering
     \includegraphics[width=.95\textwidth]{param-band2-unk-2-fiGP-ADE-1-O3.pdf}
   \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \begin{figure}
     \centering
     \includegraphics[width=.75\textwidth]{pred-band2-unk-2-fiGP-ADE-1-O3.pdf}
@@ -436,7 +437,7 @@ within the probabilistic framework offer by a GP.
   \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \begin{figure}
     \centering
     \includegraphics[height=.95\textheight]{weights-examples-pressure.pdf}
@@ -446,10 +447,7 @@ within the probabilistic framework offer by a GP.
     $\omega(t)$ is symmetrical}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Case study}
-  \framesubtitle{Weight function posterior samples}
-
+\begin{frame}[c]
   \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{image2934-8.png}
@@ -476,7 +474,7 @@ within the probabilistic framework offer by a GP.
     \item<2-> Smooths out erratic relevance patterns
     \end{itemize}
   \item[+]<3-> Similar predictive power as viGP, but better than FPCA, in the
-    case study
+    case study~\hyperlink{frm:validation-statistics}{\beamerbutton{see more}}
   \item[++]<4-> Extensible to \alert{\textbf{complex
         index spaces}}, e.g., spatio-temporal spectral inputs
   \end{itemize}
@@ -810,7 +808,8 @@ within the probabilistic framework offer by a GP.
     }}
 \end{frame}
 
-\begin{frame}
+\begin{frame}%
+  \label{frm:validation}
   \frametitle{Functional input Gaussian processes}
   \framesubtitle{Validation statistics}
 
@@ -870,7 +869,8 @@ within the probabilistic framework offer by a GP.
   \end{center}
 \end{frame}
 
-\begin{frame}
+\begin{frame}%
+  \label{frm:validation-statistics}
   \frametitle{Case study}
   \framesubtitle{Out-of-sample prediction}
 
@@ -898,7 +898,8 @@ within the probabilistic framework offer by a GP.
   many free parameters as measurements per vertical profile.
 \end{frame}
 
-\begin{frame}
+\begin{frame}%
+  \label{frm:FEW-G1-span}
   \frametitle{FEW function with one harmonic}
   \framesubtitle{$\psi_{c}$ in the rows, $\psi_{s}$ in the column}
 
@@ -908,7 +909,8 @@ within the probabilistic framework offer by a GP.
   \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}%
+  \label{frm:simulation-true}
   \frametitle{Simulation study}
   \framesubtitle{True weight functions}
 
