@@ -600,16 +600,57 @@ within the probabilistic framework offer by a GP.
 \section{Loose ends}
 
 \begin{frame}
-  \frametitle{IBEX mission}
-  \framesubtitle{}
+  \frametitle{Analytical solution to piece-wise linear inputs}
+  \framesubtitle{Jotting a few equations}
 
-  Summer internship at LANL
+  \newcommand{\calT}{\mathcal{T}}
+  \newcommand{\dt}{\, \mathrm{d}t}
+  \newcommand{\du}{\, \mathrm{d}u}
+  \newcommand{\dv}{\, \mathrm{d}v}
+  \newcommand{\w}{\omega}
+  \newcommand{\dotsq}{{\left[d(t)\right]}^2}
+  \newcommand{\fall}{\,~\forall~\,}
+
+  Let $\w(t): \calT \to \mathbb{R}_0^+$ be a weight function and
+  $X_i(t), X_j(t): \calT \to \mathbb{R}$ be two functional inputs over
+  an index space $\calT$.  Define $d_{ij}(t) = X_i(t) - X_j(t)$.  We
+  want to find $ \delta_{ij} \coloneqq \int_{\calT} \w(t) \,
+  {\left[d_{ij}(t)\right]}^2 \dt$. Call $f(t) \coloneqq \w(t) \,
+  {\left[d_{ij}(t)\right]}^2$.  We set $\calT = [0, 1]$ and consider the
+  integral over the index space for any partition $T = \left\{ t_k: t_0
+    = 0 \le t_1 < \cdots < t_K \le t_{K+1} = 1 \right\}$.  We drop the
+  subindexes $i$, $j$ for readability. We approach this integrals in
+  three ways.
+  \begin{align}
+  %%% Direct integration
+  \intertext{Direct integration}
+  \delta
+  &=\int_0^1 \w(t) \, \dotsq \dt \label{eq:fnorm-direct} \\
+  &=\sum_{k = 1}^{K + 1}
+    \underbrace{
+    \int_{t_{k-1}}^{t_k} \w(t) \, \dotsq
+    \dt}_{C_k} \label{eq:fnorm-direct-pw} \\
+  %%% Integration by part 1
+    \intertext{integration by parts with $u = \w(t)$ and
+    $\dv = \dotsq\dt$, integration by parts with $u = \dotsq$ and $\dv =
+    \w(t)\dt$}\nonumber
+  \end{align}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Analytical solution to piece-wise linear inputs}
-  \framesubtitle{}
-
+  \frametitle{Non-stationary Log-Gaussian Cox process for source separation}
+  \framesubtitle{Summer internship at LANL CCS-6}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{inc/application-fit-separation3.pdf}%
+  \end{figure}
+  {\footnotesize
+    From combined to separate signals (separation)
+    \begin{description}
+    \item[GDF] Lower counts, very slowly moving signal
+    \item[Ribbon] Higher counts, possibly rougher, inactive in most regions
+    \end{description}
+  }
 \end{frame}
 
 % Closing slide ----------------------------------------------------------------
