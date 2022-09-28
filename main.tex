@@ -250,10 +250,9 @@ within the probabilistic framework offer by a GP.
       \omega(t)
       {\left(X_i(t) - X_j(t) \right)}^2 dt
       } \\
-    \visible<3->{
+    \visible<2->{
     \omega(t)
     &: \mathcal{T}\to\mathbb{R}^+
-      %\text{exp}\left\{-(t - \tau) \lambda \kappa^s s\right\}
       }
   \end{align}
 
@@ -400,16 +399,22 @@ within the probabilistic framework offer by a GP.
   \framesubtitle{Implementation}
 
   \begin{itemize}
-  \item 8 training, 8 test complementary sets
-  \item 1,000 soundings each
-  \item 7 models: viGP SE, ARD, FPCA, FFPCA, and fiGP Edn, SDE, ADE
-  \item One model fit separately per input-output pair
+  \item 8 training and 8 test complementary sets with 1,000 soundings each
+  \item 7 plausible models
+    \begin{itemize}
+    \item viGP SE, ARD, FPCA, FFPCA
+    \item fiGP Edn, SDE, ADE
+    \item One model fit separately per input-output pair
+    \end{itemize}
   \item Fully Bayesian inference
-  \item Hamiltonian Monte Carlo using Stan
-  \item 1 long chain
-  \item Extensive search for an initial value
-  \item 500 post-warmup iterations
-  \item 1,500 posterior samples
+    \begin{itemize}
+    \item Hamiltonian Monte Carlo~\citep[ch. 5]{brooks2011}
+    \item NUTS algorithm~\citep{hoffman2014} via Stan~\citep{Stan221}
+    \item 1 long chain~\citep{raftery1992}
+    \item Extensive search for an initial value
+    \item 500 post-warmup iterations
+    \item 1,500 posterior samples
+    \end{itemize}
   \item Several out-of-sample validation statistics
   \end{itemize}
 \end{frame}
