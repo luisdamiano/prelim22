@@ -656,6 +656,138 @@ within the probabilistic framework offer by a GP.
 \end{frame}
 
 \begin{frame}
+  \frametitle{Literature review}
+  \framesubtitle{}
+  
+  \begin{tikzpicture}
+    [
+    txtbox1/.style={rectangle,align=center,draw=blue!50,fill=blue!20,thick},
+    txtbox2/.style={rectangle,align=center,draw=red!50,fill=red!20,thick},
+    every label/.style={font=\itshape\tiny}
+    ]
+
+    \node (inp)  [txtbox1] at ( 0,  0) [text width=16ex]
+    [label={[align=left]right:We observe \\ $\mathbf{x} \in \mathbb{R}^K$\\ $\mathbf{t}\in\mathcal{T}^K$}] {
+      Functional input \\
+      $X(t): \mathcal{T} \to \mathbb{R}$
+    };
+    \visible<2->{
+      \node (vec1) [txtbox1] [above right=4ex of inp]   [text width=20ex]
+      [label=below:No structural information]{
+	As a vector \\
+	$\mathbf{x} \in \mathbb{R}^K, K \in \mathbb{N}$
+      };
+      \node (vec2) [txtbox1] [below right=4ex of inp]   [text width=20ex]
+      [label=above:Additional modeling decisions]{
+	Basis representation \\
+	$\tilde{\mathbf{x}} \in \mathbb{R}^K, K \in \mathbb{N}$
+      };
+    }
+    \visible<3->{
+      \node (dred) [txtbox1] [above right=4ex of vec2] [text width=10ex]
+      [label={[align=right]left:High\\dimensional}]
+      {
+	Dimension \\ reduction
+      };
+    }
+
+    \node (gp)   [txtbox2] [right=4ex of dred] [text width=10ex] {
+      Gaussian \\ process
+    };
+    \node (out)  [txtbox2] [right=4ex of gp] [text width=10ex]  {
+      Output \\ $y \in \mathbb{R}$
+    };
+    \visible<5->{
+      \node [below=6ex of vec2.north, label=below:All this happens outside the GP$~^{[a]}$] {
+      };
+    }
+    \draw [->] [visible on=<2->] (inp.north) |- (vec1.west);
+    \draw [->] [visible on=<2->] (inp.south) |- (vec2.west);
+    \draw [->] [visible on=<3->] (vec1.east) -| (dred.north);
+    \draw [->] [visible on=<3->] (vec2.east) -| (dred.south);
+    \draw [->] [visible on=<3->] (dred.east) -- (gp.west);
+    \draw [->] (gp.east)   -- (out.west);
+    \path [visible on=<5->] (inp.south west)
+    edge[decorate,decoration={brace,mirror,raise=10ex},line width=.6pt]
+    (inp.south west -| dred.south east);
+  \end{tikzpicture}
+
+  {\small
+    \begin{itemize}
+    \item<4-> Can we connect the functional input structure to a physical
+      mechanism?
+    \item<5-> Can we incorporate the functional input structure into the GP?$~^{[b]}$
+    \item<6-> Can we circumvent input dimension reduction?
+    \end{itemize}
+  }
+
+  \blankfootnote{\visible<5->{
+      $~^{[a]}$\cite{muehlenstaedt2017,nanty2016,wang2017,tan2019,wang2019,betancourt2020,betancourt2020a,li2021} \,
+      $~^{[b]}$\cite{morris2012,kuttubekova2019}
+    }}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Functional input Gaussian processes}
+  \framesubtitle{Validation statistics}
+
+  \newcommand{\predmean}{\hat{\mathbf{m}}^{y}_*}
+  \newcommand{\predvar}{\hat{\mathbf{S}}^{y}_*}
+  \newcommand{\postpred}{\hat{p}^{y}_*}
+
+  \begin{itemize}
+  \item   Let
+    $\hat{\mathbf{m}} = \predmean = \{\hat{m}_{*n}: n = 1, \dots, N\} =
+    \EV{\mathbf{y}_* | \mathbf{y}, \mathbf{X}, \mathbf{X}_*}$
+    and
+    $\hat{\mathbf{S}} = \predvar = \VV{\mathbf{y}_* |
+      \mathbf{y}, \mathbf{X}, \mathbf{X}_*}$
+    be the predictive mean vector and covariance matrix.
+  \item  Define the
+    prediction error vector $\mathbf{e} = \mathbf{e}_{*}^{y} =
+    \mathbf{y}_{*} - \hat{\mathbf{m}}$.
+  \item Define the square Mahalanobis distance $D^2
+    = \mathbf{e}^{\transp} \hat{\mathbf{S}}^{-1} \mathbf{e}$.
+  \item Define the point-wise 95\% coverage indicator variable
+    $I_{n} = 1$ if $y_{*n} \in \hat{m}_{*n} \pm 1.96
+    {\hat{S}_{nn}}^{-\frac{1}{2}}$.
+  \item   Let $\bar{y}_* = N^{-1} \sum_{n=1}^{N} y_{*n}$ be the test output
+    mean.
+  \end{itemize}
+
+  \begin{center}
+    \begin{tabular}{lrl}
+      RMSE
+      & $v_{\textsc{RMSE}}$ =
+      & $N^{-\frac{1}{2}} \norm{\mathbf{e}}$ \\
+      $R^2$
+      & $v_{\textsc{R2}} $ =
+      & $1 -%
+        \norm{\mathbf{e}}^{2}
+        \norm{\mathbf{y}_* - \bar{y}_*}^{-2}$ \\
+      PPLD
+      & $v_{\textsc{PPLD}}$ =
+      & $
+        -\frac{1}{2} \log \lvert \hat{\mathbf{S}} \rvert
+        -D^2
+        -\frac{n}{2} \log 2 \pi
+        $
+      \\
+      CRPS
+      & $v_{\textsc{CRPS}}$ =
+      & $
+        -\log \lvert \hat{\mathbf{S}} \rvert%
+        -D^2
+        $
+      \\
+      Nominal coverage
+      & $v_{\textsc{COV95}}$ =
+      & $N^{-1} \sum_{n = 1}^{N} I_{n}$
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Case study}
   \framesubtitle{Out-of-sample prediction}
 
