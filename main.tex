@@ -532,24 +532,63 @@ within the probabilistic framework offer by a GP.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Fourier expansion for the weight function}
-  \framesubtitle{Simulation study}
+  \frametitle{Simulation study}
+  \framesubtitle{Generative models}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{inc/syn01-inputs}
+  \end{figure}
+
+  \begin{itemize}
+  \item $X(t)\sim\mathrm{GP}(m_x(\cdot), S_x(\cdot))$ calibrated to MLS O$_3$
+    inputs
+  \item $f^\star = \int_0^1 \sqrt{\omega(u)}\,X(u)\,\mathrm{d}u$
+  \item $f = \left\{
+      f^\star - \EV{f^\star}
+    \right\} \VV{f^\star}^{-\frac{1}{2}}$
+  \item $Y = f + \varepsilon$,
+    where ${10}^{-1}\varepsilon\sim\mathcal{N}(0, 1)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simulation study}
+  \framesubtitle{True weight functions
+    \hyperlink{frm:simulation-true}{\beamerbutton{see more}}
+  }
 
   \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{syn01-weight-true}
   \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Simulation study}
+  \framesubtitle{Implementation}
 
   \begin{itemize}
-  \item Two questions: (i) ALF and FEW vs the world, (ii) do we avoid
-    overfitting as $K\to\infty$
-  \item Validation statistics: RMSE, negLPPD, negCRPS~\citep{gneiting2007},
-    nominal coverage
+  \item 1 training and 1 test complementary sets with 625 soundings each
+  \item 8 plausible models
+    \begin{itemize}
+    \item viGP SE, ARD, FPCA, FFPCA
+    \item fiGP ADE, FEW3, FEW5, FEW11
+    \end{itemize}
+  \item Research questions
+    \begin{itemize}
+    \item ALF and FEW vs the world
+    \item Does FEW avoid overfitting as $K\to\infty$?
+      $K = 10, 20, 40, 80, 160, 320$
+    \end{itemize}
+  \item Fully Bayesian inference (as before)
+  \item Several out-of-sample validation statistics
+    \hyperlink{frm:validation}{\beamerbutton{see more}}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Fourier expansion for the weight function}
+  \frametitle{Simulation study}
   \framesubtitle{Limitations}
 
   \begin{itemize}
