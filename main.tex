@@ -1,5 +1,5 @@
-\documentclass{snedecorbeamer}
-
+\documentclass[handout]{snedecorbeamer}
+%\RequirePackage{lua-visual-debug}
 \usepackage{natbib}
 
 \usetikzlibrary{positioning,decorations.pathreplacing,quotes,overlay-beamer-styles}
@@ -32,7 +32,7 @@
 
   \begin{itemize}[<+(1)->]
   \item I prepared a 40 minute presentation, however\\
-  you are \textbf{strongly encouraged} to stop me as I speak
+  you are \textbf{strongly encouraged} to interrupt me at any time
   \item I'll start with a lit review,\\
     \textbf{don't hesitate} to ask for clarification about what my contribution is
   \item The presentation relies heavily on visuals,\\
@@ -54,7 +54,6 @@
 \begin{frame}
   \frametitle{Literature review}
   \framesubtitle{Computer experiment emulation}
-
   \begin{itemize}
   \item<2-> Scientific phenomena investigated via complex computer
     models~\citep{sacks1989,currin1991,koehler1996}
@@ -112,7 +111,7 @@
     splines~\citep{betancourt2020,betancourt2020a}, principal component
     analysis~\citep{nanty2016}, functional principal component
     analysis~\citep{wang2017,wang2019}, among other basis
-    functions~\citep{tan2019,li2021}
+    functions~\citep{tan2019,li2021,striegel2022}
   \item A weight function for time-varying inputs and outputs~\citep{morris2012}
   \item A weight function for functional inputs with an $L^2$ norm approximated
     via splines \citep{muehlenstaedt2017}
@@ -324,6 +323,49 @@ within the probabilistic framework offer by a GP.
   \end{exampleblock}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Functional Input Gaussian Process (fiGP)}
+  \framesubtitle{ARD vs. ADRD face-off}
+
+    \begin{columns}[t]
+    \begin{column}{.45\textwidth}
+      {\footnotesize\bfseries Automatic Relevance Determination}
+      \begin{itemize}
+      \item[+]<2-> Well-known, well-tested, readily available software
+      \item[+]<2-> Many fast approximations available
+      \item[+]<3-> Missing data in inputs
+      \end{itemize}
+      \vspace{0.25cm}
+      \begin{itemize}
+      \item[-]<3-> Output-agnostic FPCA decisions%: smoother, bases, knots
+      \item[-]<3-> Potential loss of information if not retaining all
+        components
+      \item[-]<4-> Interpretation
+      \item[-]<5-> Parameter space scales with
+        functional input resolution
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{.45\textwidth}
+      {\footnotesize\bfseries Automatic Dynamic Relevance Determination}
+      \begin{itemize}
+      \item[+]<3-> Explicit link output correlation and
+        input functional structure
+      \item[+]<3-> Domain-specific knowledge
+      \item[+]<4-> Interpretation
+      \item[+]<5-> Parsimony
+      \item[+]<6-> \alert{\textbf{Complex index spaces}},
+        e.g., spatio-temporal inputs
+      \end{itemize}
+      \vspace{0.25cm}
+      \begin{itemize}
+      \item[-]<2-> Custom software
+      \item[-]<2-> A less-explored approach, further research needed
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 % \begin{frame}
 %   \frametitle{Permutation Dynamic Feature Importance}
 %   \framesubtitle{}
@@ -335,8 +377,8 @@ within the probabilistic framework offer by a GP.
 \standout{Asymmetrical Laplace function\\\textsc{fiGP-ALF}}
 
 \begin{frame}
-  \frametitle{Functional Input Gaussian Process (fiGP)}
-  \framesubtitle{Asymmetrical Laplace function}
+  \frametitle{Asymmetrical Laplace function}
+  \framesubtitle{Specification}
 
   \begin{figure}[h!]
 	\centering
@@ -411,7 +453,7 @@ within the probabilistic framework offer by a GP.
   \item Fully Bayesian inference
     \begin{itemize}
     \item Hamiltonian Monte Carlo~\citep[ch. 5]{brooks2011}
-    \item NUTS algorithm~\citep{hoffman2014} via Stan~\citep{Stan221}
+    \item NUTS algorithm~\citep{hoffman2014} via Stan~\citep{standevelopmentteam2021}
     \item 1 long chain~\citep{raftery1992}
     \item Extensive search for an initial value
     \item 500 post-warmup iterations
@@ -455,7 +497,7 @@ within the probabilistic framework offer by a GP.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Why a fiGP?}
+  \frametitle{Case study}
   \framesubtitle{In summary}
 
   \begin{itemize}
@@ -486,15 +528,14 @@ within the probabilistic framework offer by a GP.
 
 \begin{frame}
   \frametitle{Fourier expansion for the weight function}
-  \framesubtitle{Model specification}
+  \framesubtitle{Specification}
 
   \begin{align}
   \log\omega(t)
   \label{eq:few-log}
   &=\psi_{c,0} + \sum_{g = 1}^{G} \psi_{c,g}\cos\left(2\pi gt\right)
-    + \sum_{g = 1}^{G} \psi_{s,g}\sin\left(2\pi gt\right),
+    + \sum_{g = 1}^{G} \psi_{s,g}\sin\left(2\pi gt\right)
   \end{align}
-
   \begin{center}
     $\psi_{c,g},\psi_{s,g}\in\Reals$, $G\in\mathbb{N}$
   \end{center}
@@ -539,6 +580,8 @@ within the probabilistic framework offer by a GP.
     \includegraphics[width=\textwidth]{inc/syn01-inputs}
   \end{figure}
 
+  \vspace{\fill}% or \vfill
+
   \begin{itemize}
   \item $X(t)\sim\mathrm{GP}(m_x(\cdot), S_x(\cdot))$ calibrated to MLS O$_3$
     inputs
@@ -572,7 +615,7 @@ within the probabilistic framework offer by a GP.
   \item 8 plausible models
     \begin{itemize}
     \item viGP SE, ARD, FPCA, FFPCA
-    \item fiGP ADE, FEW3, FEW5, FEW11
+    \item fiGP ADE, FEW1, FEW2, FEW5
     \end{itemize}
   \item Research questions
     \begin{itemize}
@@ -586,50 +629,90 @@ within the probabilistic framework offer by a GP.
   \end{itemize}
 \end{frame}
 
+\begin{frame}[c]
+  \frametitle{Simulation study}
+  \framesubtitle{Weight function posterior distribution (one subset)}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{syn01-weight-fitted-mini2}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[c]
+  \frametitle{Simulation study}
+  \framesubtitle{Regularization in action}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{syn01-weightFun1-param-1}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[c]
+  \frametitle{Simulation study}
+  \framesubtitle{Validation statistic posterior expectation}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{syn01-validation-fig-mini}
+  \end{figure}
+\end{frame}
+
 \begin{frame}
   \frametitle{Simulation study}
   \framesubtitle{Limitations}
 
   \begin{itemize}
-  \item It introduces strong regularization in the length-scale over the index
-    space
-  \item enforces periodicity and, consequently, $\omega(0) = \omega(1)$
-  \item exponential function has some subtle effects
+  \item[+] It introduces strong smoothness
+  \item[-] It enforces periodicity and, consequently, $\omega(0) = \omega(1)$
+  \item[-] The exponential function has some subtle effects
+  \item[?] Studying overfitting as $K\to\infty$ is WIP
   \end{itemize}
-
 \end{frame}
 
 \section{Better basis functions}
-\standout{Better basis functions\\\textsc{fiGP-???}}
+\standout{Better basis functions\\\textsc{fiGP-NEXT}}
 
 \begin{frame}
-  \frametitle{Functional Input Gaussian Process (fiGP)}
-  \framesubtitle{Better basis functions}
-  Early results suggest that Fourier basis are nice but limited
+  \frametitle{Better basis functions}
+  \framesubtitle{Motivation}
 
-  Concepts to explore:
-  \begin{itemize}
-  \item Partition of unity of a topological space $\mathcal{T}$ is a set of
-    continuous functions from $\mathcal{T}\to[0, 1]$ s.t.
-  \item Wavelets
-  \item Bernstein polynomials and Bézier curves
-  \item Nonnegative B-splines
-  \end{itemize}
+  Early results suggest that Fourier basis are limited but
+  a step in the right direction
 \end{frame}
 
 \begin{frame}
-  \frametitle{Functional Input Gaussian Process (fiGP)}
+  \frametitle{Better basis functions}
+  \framesubtitle{A natural extension}
+
+  \emph{Weightlets}: expanding weight functions via wavelets
+
+  They allow for choppy signals, including sharp spikes
+  \begin{align}
+    B(t)
+    &={\frac {\sin(2\pi t)-\sin(\pi t)}{\pi t}} \\
+    B_{jk}(t)
+    &= 2^{j/2} B(2^j t - k) \\
+    \log\omega(t)
+    &= \sum_{j,k\in\mathcal{A}} \psi_{jk} B_{jk}(t)
+  \end{align}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Better basis functions}
   \framesubtitle{A likely candidate}
 
-  Expanding nonnegative functions via splines with nonnegative coefficients
+  Expanding nonnegative functions via splines with nonnegative
+  coefficients\cite{deboor1974}
 
-  For some knots $0 \le t^\star_0 < t^\star_1 < \dots, t^\star_n \le 1$
+  For some knots $0 \le t_0 < t_1 < \dots, t_G \le 1$
   \begin{align}
+    B_{i, g+1}(t)
+    &=\frac{t - t_i}{t_{i+g} - t_i} B_{i, g}(t)
+      + \left[1 - \frac{t - t_i}{t_{i+g} - t_i}\right] B_{i + 1, g}(t) \\
     \omega(t)
-    &=\sum_{g=1}^{G}\psi_{g}b_g(t) \\
-    b_g(t)
-    &= \\
-    B_{g,}
+    &=\sum_{g=1}^{G}\psi_{g}B_g(t), \psi_{g}\ge0
   \end{align}
 \end{frame}
 
@@ -639,7 +722,7 @@ within the probabilistic framework offer by a GP.
 
 \begin{frame}
   \frametitle{Analytical solution to piece-wise linear inputs}
-  \framesubtitle{Jotting a few equations}
+  \framesubtitle{Jotted a few equations but it wasn't particularly enlightening}
 
   \newcommand{\calT}{\mathcal{T}}
   \newcommand{\dt}{\, \mathrm{d}t}
@@ -660,19 +743,15 @@ within the probabilistic framework offer by a GP.
   subindexes $i$, $j$ for readability. We approach this integrals in
   three ways.
   \begin{align}
-  %%% Direct integration
-  \intertext{Direct integration}
   \delta
   &=\int_0^1 \w(t) \, \dotsq \dt \label{eq:fnorm-direct} \\
   &=\sum_{k = 1}^{K + 1}
     \underbrace{
     \int_{t_{k-1}}^{t_k} \w(t) \, \dotsq
-    \dt}_{C_k} \label{eq:fnorm-direct-pw} \\
-  %%% Integration by part 1
-    \intertext{integration by parts with $u = \w(t)$ and
-    $\dv = \dotsq\dt$, integration by parts with $u = \dotsq$ and $\dv =
-    \w(t)\dt$}\nonumber
+    \dt}_{C_k} \label{eq:fnorm-direct-pw}
   \end{align}
+  Direct integration, integration by parts with $u = \w(t)$ and
+  $\dv = \dotsq\dt$, integration by parts with $u = \dotsq$ and $\dv =\w(t)\dt$
 \end{frame}
 
 \begin{frame}
@@ -793,7 +872,7 @@ within the probabilistic framework offer by a GP.
     (inp.south west -| dred.south east);
   \end{tikzpicture}
 
-  {\small
+  {\footnotesize
     \begin{itemize}
     \item<4-> Can we connect the functional input structure to a physical
       mechanism?
