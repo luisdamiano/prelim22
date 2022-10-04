@@ -692,10 +692,10 @@ within the probabilistic framework offer by a GP.
   \begin{align}
     B(t)
     &={\frac {\sin(2\pi t)-\sin(\pi t)}{\pi t}} \\
-    B_{jk}(t)
-    &= 2^{j/2} B(2^j t - k) \\
+    B_{ig}(t)
+    &= 2^{i/2} B(2^i t - g) \\
     \log\omega(t)
-    &= \sum_{j,k\in\mathcal{A}} \psi_{jk} B_{jk}(t)
+    &= \sum_{i,g\in\mathcal{A}} \psi_{ig} B_{ig}(t),\psi_{ig}\in\mathbb{R} \\
   \end{align}
 \end{frame}
 
@@ -708,6 +708,8 @@ within the probabilistic framework offer by a GP.
 
   For some knots $0 \le t_0 < t_1 < \dots, t_G \le 1$
   \begin{align}
+    B_{i, 1}
+    &= \mathbb{I}(t_i \le t < t_{i+1}) \\
     B_{i, g+1}(t)
     &=\frac{t - t_i}{t_{i+g} - t_i} B_{i, g}(t)
       + \left[1 - \frac{t - t_i}{t_{i+g} - t_i}\right] B_{i + 1, g}(t) \\
@@ -1033,8 +1035,9 @@ within the probabilistic framework offer by a GP.
       &=\mathbb{I}(.6\le t \le.9)
       &\text{Box} \\
       \omega^\star_8(t)
-      &=\mathbb{I}(t\in\{.25, .50, .75\})
-      &\text{Point mass}
+      &=\frac{2}{3}\mathbb{I}(t = .25) + \frac{1}{3}\mathbb{I}(t = .50) +
+        \frac{3}{3}\mathbb{I}(t = .75)
+      &\text{Point weight}
     \end{align*}
     $Q(t, a, b) = \exp\left[-{(t - a)}^2/b^2\right]$, and $\mathbb{I}(\cdot)$
     is an indicator function}
