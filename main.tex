@@ -465,8 +465,6 @@
   \item[+]<1-> High dimensional inputs with no dimension reduction
     \begin{itemize}
     \item Reduce unknowns $3 << K$
-    \item Scales up for applications with higher input resolution
-      $\uparrow K$
     \end{itemize}
   \item[+]<2-> Explicit link between output correlation and
     input functional structure
@@ -478,8 +476,8 @@
     \end{itemize}
   \item[+]<3-> Similar predictive power as viGP, but better than FPCA, in the
     case study~\hyperlink{frm:validation-statistics}{\beamerbutton{see more}}
-  \item[++]<4-> Extensible to \alert{\textbf{complex
-        index spaces}}, e.g., spatio-temporal spectral inputs
+  % \item[++]<4-> Extensible to \alert{\textbf{complex
+  %       index spaces}}, e.g., spatio-temporal spectral inputs
   \end{itemize}
 \end{frame}
 
@@ -591,13 +589,15 @@
 
 \begin{frame}
   \frametitle{Simulation study}
-  \framesubtitle{Limitations}
+  \framesubtitle{In summary}
 
   \begin{itemize}
   \item[+] It introduces strong smoothness
+  \item[+] Prediction is competitive, though I need to revisit the ARD
+    predictions
   \item[-] It enforces periodicity and, consequently, $\omega(0) = \omega(1)$
   \item[-] The exponential function has some subtle effects
-  \item[?] Studying overfitting as $K\to\infty$ is WIP
+  \item[?] Simulations as $K\to\infty$ are in progress
   \end{itemize}
 \end{frame}
 
