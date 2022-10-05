@@ -1004,51 +1004,53 @@ within the probabilistic framework offer by a GP.
   \framesubtitle{True weight functions}
 
   \vspace{-2ex}
-  {\small
-    \begin{align*}
-      \omega^\star_1(t)
-      &=Q(t, .75, .30)
-      &\text{Unimodal} \\
-      \omega^\star_2(t)
-      &=\left\{1.13 + \sin[2\pi(1-t)] - \cos[2\pi2(1-t)]\right\} / 3.13
-      &\text{Bimodal} \\
-      \omega^\star_3(t)
-      &=\frac{2}{3} Q(t, .25, .07)+
-        \frac{1}{3} Q(t, .50, .07) +
-        \frac{3}{3} Q(t, .75, .07)
-      &\text{Trimodal} \\
-      \omega^\star_4(t)
-      &=
-        \begin{cases}
-          \exp\left(10\,\lvert t - .75 \rvert\right) \\
-          \exp\left(-2.5\,\lvert t - .75 \rvert\right) \\
-        \end{cases}
-      &\text{ALF} \\
-      \omega^\star_5(t)
-      &=
-        \begin{aligned}[t]
-          &\exp\left\{\right.
-          .2 +
-          1/3 \cos(2\pi t) - 5/3 \cos(2\pi2t) - \\
-          &2/3 \sin(2\pi t) + 4/3 \sin(2\pi2t)
-          \left.\right\} / 17.62
-        \end{aligned}
-      &\text{FEW5} \\
-      \omega^\star_6(t)
-      % &= {\left(\frac{t - .5}{.5}\right)}^{10}
-      &= {(2t - 1)}^{10}
-      &\text{U shape} \\
-      \omega^\star_7(t)
-      % &=1 - \mathbb{I}(t < .9) - \mathbb{I}(t < .6)
-      &=\mathbb{I}(.6\le t \le.9)
-      &\text{Box} \\
-      \omega^\star_8(t)
-      &=\frac{2}{3}\mathbb{I}(t = .25) + \frac{1}{3}\mathbb{I}(t = .50) +
-        \frac{3}{3}\mathbb{I}(t = .75)
-      &\text{Point weight}
-    \end{align*}
-    $Q(t, a, b) = \exp\left[-{(t - a)}^2/b^2\right]$, and $\mathbb{I}(\cdot)$
-    is an indicator function}
+  \begingroup
+  \footnotesize
+  \begin{align*}
+    \omega^\star_1(t)
+    &=Q(t, .75, .30)
+    &\text{Unimodal} \\
+    \omega^\star_2(t)
+    &=\left\{1.13 + \sin[2\pi(1-t)] - \cos[2\pi2(1-t)]\right\} / 3.13
+    &\text{Bimodal} \\
+    \omega^\star_3(t)
+    &=\frac{2}{3} Q(t, .25, .07)+
+      \frac{1}{3} Q(t, .50, .07) +
+      \frac{3}{3} Q(t, .75, .07)
+    &\text{Trimodal} \\
+    \omega^\star_4(t)
+    &=
+      \begin{cases}
+        \exp\left(10\,\lvert t - .75 \rvert\right) \\
+        \exp\left(-2.5\,\lvert t - .75 \rvert\right) \\
+      \end{cases}
+    &\text{ALF} \\
+    \omega^\star_5(t)
+    &=
+      \begin{aligned}[t]
+        &\exp\left\{\right.
+        .2 +
+        1/3 \cos(2\pi t) - 5/3 \cos(2\pi2t) - \\
+        &2/3 \sin(2\pi t) + 4/3 \sin(2\pi2t)
+        \left.\right\} / 17.62
+      \end{aligned}
+    &\text{FEW5} \\
+    \omega^\star_6(t)
+    % &= {\left(\frac{t - .5}{.5}\right)}^{10}
+    &= {(2t - 1)}^{10}
+    &\text{U shape} \\
+    \omega^\star_7(t)
+    % &=1 - \mathbb{I}(t < .9) - \mathbb{I}(t < .6)
+    &=\mathbb{I}(.6\le t \le.9)
+    &\text{Box} \\
+    \omega^\star_8(t)
+    &=\frac{2}{3}\mathbb{I}(t = .25) + \frac{1}{3}\mathbb{I}(t = .50) +
+      \frac{3}{3}\mathbb{I}(t = .75)
+    &\text{Point weight}
+  \end{align*}
+  $Q(t, a, b) = \exp\left[-{(t - a)}^2/b^2\right]$, and $\mathbb{I}(\cdot)$
+  is an indicator function
+  \endgroup
 \end{frame}
 
 \end{document}
