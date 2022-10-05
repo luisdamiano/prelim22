@@ -296,7 +296,8 @@ within the probabilistic framework offer by a GP.
     \node (eq1b) [below=of solution1b] [text width=25ex] {
       $\sum_{k=1}^K \frac{{(x_{i, k} - x_{j, k})}^2}{\ell_k^2}$
     };
-    \node (eq2b) [below=of solution2b] [text width=25ex]
+    % \node (eq2b) [below=of solution2b] [text width=25ex]
+    \node (eq2b) [right=of eq1b] [text width=25ex]
     [visible on=<3->]{
       $\int_{\mathcal{T}}
       \omega(t)
@@ -307,7 +308,8 @@ within the probabilistic framework offer by a GP.
     \node (par1b) [below=of eq1b] [text width=25ex]{
       $\ell^{-2}_1, \cdots, \ell^{-2}_K > 0$
     };
-    \node (par2b) [below=of eq2b] [text width=25ex]
+    %\node (par2b) [below=of eq2b] [text width=25ex]
+    \node (par2b) [right=of par1b] [text width=25ex]
     [visible on=<4->]{
       $\omega(t): \mathcal{T} \to \mathbb{R}^+$
     };
