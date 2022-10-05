@@ -1,10 +1,15 @@
 \documentclass[handout]{snedecorbeamer}
 %\RequirePackage{lua-visual-debug}
 \usepackage{natbib}
+\usepackage{tcolorbox}
 
 \usetikzlibrary{positioning,decorations.pathreplacing,quotes,overlay-beamer-styles}
 
 \graphicspath{{inc/}}
+
+\newenvironment{infoblock}
+{ \begin{tcolorbox}[colback=green!5!white,colframe=green!75!black] }
+{ \end{tcolorbox} }
 
 \begin{document}
 
@@ -91,9 +96,9 @@
   \end{itemize}
 
   \vfill{}
-  \begin{exampleblock}{}<2->
+  \begin{infoblock}
     General references only cover vector and categorical inputs
-  \end{exampleblock}
+  \end{infoblock}
 \end{frame}
 
 \begin{frame}
@@ -121,10 +126,11 @@
   \end{itemize}
 
   \vfill{}
-  \begin{exampleblock}{}<8>
+  \begin{infoblock}
     Although functional input computer experiments are not uncommon,
-    there has been little work on functional input Gaussian processes
-  \end{exampleblock}
+    there's no hands-off methodology for functional input Gaussian processes
+    %there has been little work on functional input Gaussian processes
+  \end{infoblock}
 \end{frame}
 
 \begin{frame}<all:0>
@@ -320,9 +326,9 @@ within the probabilistic framework offer by a GP.
     % \draw[shorten >=1ex,shorten <=1ex,line width=1pt]
     % [visible on=<4->] [->] (par1b.east) -- (par2b.west);
   \end{tikzpicture}
-  \begin{exampleblock}{}<3->
-    Risk of overfitting with as many $\ell_k$ as $K$
-  \end{exampleblock}
+  \begin{infoblock}
+    Risk of overfitting as $K\to\infty$
+  \end{infoblock}
 \end{frame}
 
 \begin{frame}
