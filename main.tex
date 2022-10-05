@@ -443,21 +443,6 @@
 \begin{frame}[c]
   \begin{figure}
     \centering
-    \includegraphics[width=.95\textwidth]{param-band2-unk-2-fiGP-ADE-1-O3.pdf}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[c]
-  \begin{figure}
-    \centering
-    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-fiGP-ADE-1-O3.pdf}
-    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-viGP-FFPCA-1-O3.pdf}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[c]
-  \begin{figure}
-    \centering
     \includegraphics[height=.95\textheight]{weights-examples-pressure.pdf}
   \end{figure}
 
@@ -549,29 +534,6 @@
 
 \begin{frame}
   \frametitle{Simulation study}
-  \framesubtitle{Generative models}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{inc/syn01-inputs}
-  \end{figure}
-
-  \vspace{\fill}% or \vfill
-
-  \begin{itemize}
-  \item $X(t)\sim\mathrm{GP}(m_x(\cdot), S_x(\cdot))$ calibrated to MLS O$_3$
-    inputs
-  \item $f^\star = \int_0^1 \sqrt{\omega(u)}\,X(u)\,\mathrm{d}u$
-  \item $f = \left\{
-      f^\star - \EV{f^\star}
-    \right\} \VV{f^\star}^{-\frac{1}{2}}$
-  \item $Y = f + \varepsilon$,
-    where ${10}^{-1}\varepsilon\sim\mathcal{N}(0, 1)$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Simulation study}
   \framesubtitle{True weight functions
     \hyperlink{frm:simulation-true}{\beamerbutton{see more}}
   }
@@ -587,6 +549,8 @@
   \framesubtitle{Implementation}
 
   \begin{itemize}
+  \item A generative model calibrated to MLS O$_3$ profiles
+    \hyperlink{frm:generative}{\beamerbutton{see more}}
   \item 1 training and 1 test complementary sets with 625 soundings each
   \item 8 plausible models
     \begin{itemize}
@@ -612,16 +576,6 @@
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{syn01-weight-fitted-mini2}
-  \end{figure}
-\end{frame}
-
-\begin{frame}[c]
-  \frametitle{Simulation study}
-  \framesubtitle{Regularization in action}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{syn01-weightFun1-param-1}
   \end{figure}
 \end{frame}
 
@@ -926,6 +880,21 @@
   \end{center}
 \end{frame}
 
+\begin{frame}[c]
+  \begin{figure}
+    \centering
+    \includegraphics[width=.95\textwidth]{param-band2-unk-2-fiGP-ADE-1-O3.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[c]
+  \begin{figure}
+    \centering
+    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-fiGP-ADE-1-O3.pdf}
+    \includegraphics[width=.75\textwidth]{pred-band2-unk-2-viGP-FFPCA-1-O3.pdf}
+  \end{figure}
+\end{frame}
+
 \begin{frame}%
   \label{frm:validation-statistics}
   \frametitle{Case study}
@@ -964,6 +933,30 @@
     \centering
     \includegraphics[width=.65\textwidth]{FEW-G1-span}
   \end{figure}
+\end{frame}
+
+\begin{frame}%
+  \label{frm:generative}
+  \frametitle{Simulation study}
+  \framesubtitle{Generative models}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{inc/syn01-inputs}
+  \end{figure}
+
+  \vspace{\fill}% or \vfill
+
+  \begin{itemize}
+  \item $X(t)\sim\mathrm{GP}(m_x(\cdot), S_x(\cdot))$ calibrated to MLS O$_3$
+    inputs
+  \item $f^\star = \int_0^1 \sqrt{\omega(u)}\,X(u)\,\mathrm{d}u$
+  \item $f = \left\{
+      f^\star - \EV{f^\star}
+    \right\} \VV{f^\star}^{-\frac{1}{2}}$
+  \item $Y = f + \varepsilon$,
+    where ${10}^{-1}\varepsilon\sim\mathcal{N}(0, 1)$
+  \end{itemize}
 \end{frame}
 
 \begin{frame}%
@@ -1019,6 +1012,16 @@
   $Q(t, a, b) = \exp\left[-{(t - a)}^2/b^2\right]$, and $\mathbb{I}(\cdot)$
   is an indicator function
   \endgroup
+\end{frame}
+
+\begin{frame}[c]
+  \frametitle{Simulation study}
+  \framesubtitle{Regularization in action}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{syn01-weightFun1-param-1}
+  \end{figure}
 \end{frame}
 
 \end{document}
